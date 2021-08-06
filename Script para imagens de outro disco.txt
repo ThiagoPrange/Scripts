@@ -1,0 +1,34 @@
+Exemplo filesystem.php
+'server' => [
+            'driver' => 'local',
+            'root' => 'D:\\'
+        ],
+
+
+Exemplo de metodo no controlador 
+public function renderImage()
+    {
+        $file = $_GET["file"];
+        $file = urldecode($file);
+        $local = Storage::disk('server')->path($file);
+        return response()->file($local);
+    }
+
+    public function showHomePage()
+    {
+        $local = 'Teste/Financeiro/dev.png';
+        $local = urlencode($local);
+
+        return view('admin.home', [
+            'path' => $local
+        ]);
+    }
+
+
+
+Exemplo rota
+Route::get('/home/renderimage', 'HomeController@renderImage')->name('render.image');
+
+
+Exemplo tag HTML
+<img src="{{ route('admin.render.image') . '?file=' . $path }}" width="100%" alt="Teste" />
